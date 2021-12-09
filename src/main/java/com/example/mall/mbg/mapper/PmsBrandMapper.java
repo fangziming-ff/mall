@@ -3,8 +3,11 @@ package com.example.mall.mbg.mapper;
 import com.example.mall.mbg.model.PmsBrand;
 import com.example.mall.mbg.model.PmsBrandExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface PmsBrandMapper {
     int countByExample(PmsBrandExample example);
 

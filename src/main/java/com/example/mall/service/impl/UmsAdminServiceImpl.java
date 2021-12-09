@@ -2,6 +2,8 @@ package com.example.mall.service.impl;
 
 
 import com.example.mall.common.util.JwtTokenUtil;
+import com.example.mall.component.UseInfoService;
+import com.example.mall.component.UserInfo;
 import com.example.mall.dao.UmsAdminRoleRelationDao;
 import com.example.mall.mbg.mapper.UmsAdminMapper;
 import com.example.mall.mbg.mapper.UmsAdminRoleRelationMapper;
@@ -9,6 +11,7 @@ import com.example.mall.mbg.model.UmsAdmin;
 import com.example.mall.mbg.model.UmsAdminExample;
 import com.example.mall.mbg.model.UmsPermission;
 import com.example.mall.service.UmsAdminService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -34,10 +37,11 @@ import java.util.List;
  * @date 2021/12/8 16:11
  */
 @Service
+@Slf4j
 public class UmsAdminServiceImpl implements UmsAdminService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UmsAdminServiceImpl.class);
-    @Autowired
-    private UserDetailsService userDetailsService;
+    @Autowired(required = false)
+    private UseInfoService useInfoService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
@@ -81,16 +85,19 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
-    public String login(String username, String password) {
+    public String login(String username, String password,String email) {
         String token = null;
         try {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+            UserInfo userInfo = useInfoService.loadUserByUsername(username);
+            if (!passwordEncoder.matches(password, userInfo.getPassword())) {
                 throw new BadCredentialsException("密码不正确");
             }
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            if (!email.equals(userInfo.getEmail())){
+                throw new BadCredentialsException("邮箱不正确");
+            }
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userInfo, null, userInfo.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            token = jwtTokenUtil.generateToken(userDetails);
+            token = jwtTokenUtil.generateToken(userInfo);
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
         }

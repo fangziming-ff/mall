@@ -28,6 +28,11 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+logging:
+  level:
+    root: info
+    org.mybatis: debug
+
 
 # 自定义jwt key
 jwt:

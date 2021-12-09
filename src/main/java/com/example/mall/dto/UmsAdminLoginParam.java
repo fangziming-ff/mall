@@ -2,6 +2,7 @@ package com.example.mall.dto;
 
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.NonNull;
 
 
@@ -11,6 +12,7 @@ import lombok.NonNull;
  * @author Ming
  * @date 2021/12/8 16:37
  */
+@Data
 public class UmsAdminLoginParam {
     @ApiModelProperty(value = "用户名", required = true)
     @NonNull
@@ -18,6 +20,8 @@ public class UmsAdminLoginParam {
     @ApiModelProperty(value = "密码", required = true)
     @NonNull
     private String password;
+
+    private String email;
 
     public String getUsername() {
         return username;

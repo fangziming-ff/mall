@@ -19,8 +19,9 @@ import java.util.Random;
  */
 @Service
 public class UmsMemberServiceImpl implements UmsMemberService {
+
     @Autowired
-    private RedisService redisService;
+    private RedisServiceImpl redisService;
 
     @Override
     public CommonResult generateAuthCode(String telephone) {

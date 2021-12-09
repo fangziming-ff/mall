@@ -2,7 +2,6 @@ package com.example.mall.service.impl;
 
 /**
  * 操作redis
- *
  * @author Ming
  * @date 2021/12/8 14:50
  */

@@ -53,7 +53,7 @@ public class UmsAdminController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult login(@RequestBody UmsAdminLoginParam umsAdminLoginParam, BindingResult result) {
-        String token = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
+        String token = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword(),umsAdminLoginParam.getEmail());
         if (token == null) {
             return CommonResult.validateFailed("用户名或密码错误");
         }
